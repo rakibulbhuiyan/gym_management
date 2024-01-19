@@ -41,4 +41,21 @@ class Enquiry(models.Model):
     send_time=models.DateTimeField(auto_now_add=True)
     def __str__(self) -> str:
         return self.full_name
-    
+
+class Gallery(models.Model):
+    title=models.CharField(max_length=150)
+    img=models.ImageField(upload_to='gellary/',null=True)
+    detail=models.TextField()
+    def __str__(self) -> str:
+        return self.title
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' %(self.img.url))
+
+class GalleryImage(models.Model):
+    gellary=models.ForeignKey(Gallery,on_delete=models.CASCADE, null=True)
+    alt_text=models.CharField(max_length=150)
+    img=models.ImageField(upload_to='gellary_images/',null=True)
+    def __str__(self) -> str:
+        return self.alt_text
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="80" />' %(self.img.url))

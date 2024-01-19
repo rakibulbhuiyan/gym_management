@@ -17,17 +17,17 @@
     <!-- Header -->
     <nav class="navbar navbar-expand-lg navbar-light bg-warning">
 	  <div class="container">
-	    <a class="navbar-brand" href="./">Your GYM</a>
+	    <a class="navbar-brand" href="{% url 'home' %}">Your GYM</a>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
 	    <div class="collapse navbar-collapse" id="navbarNav">
 	      <ul class="navbar-nav ms-auto">
 	        <li class="nav-item">
-	          <a class="nav-link" aria-current="page" href="./">Home</a>
+	          <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
 	        </li>
 	        <li class="nav-item">
-	          <a class="nav-link" aria-current="page" href="gallery.php">Gallery</a>
+	          <a class="nav-link" aria-current="page" href="{% url 'gellary' %}">Gallery</a>
 	        </li>
 	        <li class="nav-item">
 	          <a class="nav-link" href="pricing.php">Pricing</a>
@@ -63,7 +63,7 @@
 
         <footer class="container py-5">
 	    <p class="float-end"><a href="#">Back to top</a></p>
-	    <p>© 2017–2021 Arnold GYM, Inc. · 
+	    <p>Copyright © 2024 . All rights reserved. GYM, Inc. · 
             <a href="{% url 'pagedetail' 2 %}">Privacy</a> · 
             <a href="{% url 'pagedetail' 3 %}">Terms</a> . 
             <a href="{% url 'faq' %}">FAQ</a>

@@ -20,6 +20,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,3 +121,10 @@ MEDIA_ROOT=BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+JAZZMIN_SETTINGS ={
+    "site_title": "GYM Admin",
+    "site_header": "GYM Admin",
+    "order_with_respect_to": ["auth", "main.Banners", "main.Service", "main.enquiry","main.Gallery",
+                              "main.GellaryImage","main.Pages"],
+}

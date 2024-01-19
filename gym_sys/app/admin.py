@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Banners,Service,Pages,Faq,Enquiry
+from .models import Banners,Service,Pages,Faq,Enquiry,Gallery,GalleryImage
 # Register your models here.
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('alt_text','image_tag')
@@ -18,3 +18,9 @@ admin.site.register(Faq,FaqAdmin)
 class EnquiryAdmin(admin.ModelAdmin):
     list_display = ('full_name','email','detail','send_time')
 admin.site.register(Enquiry,EnquiryAdmin)
+class GalleryAdmin(admin.ModelAdmin):
+    list_display = ('title','image_tag')
+admin.site.register(Gallery,GalleryAdmin)
+class GalleryImageAdmin(admin.ModelAdmin):
+    list_display = ('alt_text','image_tag')
+admin.site.register(GalleryImage,GalleryImageAdmin)

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Banners,Service,Pages,Faq,Enquiry
+from .models import Banners,Service,Pages,Faq,Gallery,GalleryImage
 from .forms import EnquiryForm
 from django.contrib import messages
 # Create your views here.
@@ -42,5 +42,18 @@ def enquiry(request):
     }
     return render(request, 'enquiry.html',context)
 
+def gellary(request):
+    gellary=Gallery.objects.all().order_by('-id')
+    context={
+        'gellary':gellary,
+    }
+    return render(request, 'gellary.html',context)
 
-
+def gellary_detail(request,id):
+    gellary=Gallery.objects.get(id=id)
+    gellary_images=GalleryImage.objects.filter(gellary=gellary).order_by('-id')
+    context={
+        'gellary_images':gellary_images, 
+        'gellary':gellary, 
+    }
+    return render(request, 'gellary_detail.html',context)
