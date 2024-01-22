@@ -8,4 +8,11 @@ urlpatterns = [
     path('enquiry/', views.enquiry,name='enquiry'),
     path('gellary/', views.gellary,name='gellary'),
     path('gellarydetail/<int:id>/', views.gellary_detail,name='gallery_detail'),
+    path('pricing/', views.pricing,name='pricing'),
+
+    path('checkout/<int:plan_id>/', views.checkout,name='checkout'),
+
+    #accounts
+
+    path('accounts/signup/', views.signup,name='signup'),
 ]

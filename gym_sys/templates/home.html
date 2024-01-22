@@ -59,18 +59,10 @@
 					<div class="col-md-6 offset-1">
 							<h1 class="mb-4 section-heading">Gallery <a href="#" class="float-end btn btn-info text-white mt-2">View All</a></h1>
 							<div class="gallery">
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/cardio-1.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/cardio-1.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/cardio-1.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/dance-3.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
-								<a data-lightbox="home-gallery" href="imgs/body-2.jpg"><img src="imgs/body-2.jpg" width="155" class="img-thumbnail" alt="..."></a>
+
+							{% for gelimg in gal_Img %}
+								<a data-lightbox="home-gallery" href="{{gelimg.img.url}}"><img src="{{gelimg.img.url}}" width="155" class="img-thumbnail" alt="{{gelimg.alt_text}}"></a>
+							{% endfor %}
 							</div>
 					</div>
 				</div>
@@ -80,7 +72,10 @@
 
     </main>
     <!-- End -->
-{% endblock content %}
-{% comment %} <script type="text/javascript" src="assets/lightbox2-2.11.3/dist/js/lightbox.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/lightbox2-2.11.3/dist/css/lightbox.min.css" />
- {% endcomment %}
+
+<!-- LightBox css -->
+<link rel="stylesheet" type="text/css" href="{% static 'lightbox2-2.11.3/dist/css/lightbox.min.css' %}" />
+<!-- LightBox Js -->
+<script type="text/javascript" src="{% static 'lightbox2-2.11.3/dist/js/lightbox.min.js' %}"></script>
+
+{% endblock %}

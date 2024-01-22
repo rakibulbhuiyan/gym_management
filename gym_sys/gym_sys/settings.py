@@ -20,6 +20,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # install jazzmin first::: pip install jazzmin then 
+    # install it before 'django.contrib.admin',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -126,5 +128,7 @@ JAZZMIN_SETTINGS ={
     "site_title": "GYM Admin",
     "site_header": "GYM Admin",
     "order_with_respect_to": ["auth", "main.Banners", "main.Service", "main.enquiry","main.Gallery",
-                              "main.GellaryImage","main.Pages"],
+                              "main.GellaryImage","main.Pages","main.SubcripPlan","main.SubcripPlanFeature"],
 }
+LOGIN_REDIRECT_URL='home'
+LOGOUT_REDIRECT_URL='login'

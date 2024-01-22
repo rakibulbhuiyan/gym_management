@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect
-from .models import Banners,Service,Pages,Faq,Gallery,GalleryImage
-from .forms import EnquiryForm
+from .models import Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature
+from .forms import EnquiryForm,SignupForm
 from django.contrib import messages
 # Create your views here.
 def home(request):
     banners=Banners.objects.all()
     services=Service.objects.all()
+    gal_Img=GalleryImage.objects.all().order_by('-id')[:9]
     context={
         'banners':banners,
         'services':services,
+        'gal_Img':gal_Img,
     }
     return render(request, 'home.html',context)
 
@@ -57,3 +59,36 @@ def gellary_detail(request,id):
         'gellary':gellary, 
     }
     return render(request, 'gellary_detail.html',context)
+
+def pricing(request):
+    plans=SubcripPlan.objects.all().order_by('id',)
+    dfeatures=SubcripPlanFeature.objects.all()
+    context={
+        'plans':plans,
+        'dfeatures':dfeatures,
+    }
+    return render(request, 'pricing.html',context)
+def signup(request):
+    if request.method=='POST':
+        form=SignupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'successfully signup')
+            return redirect('home')
+        else:
+            messages.error(request,'Invalid Data')
+            return redirect('signup')
+    else:
+        form=SignupForm()
+    context={
+        'form':form
+    }
+    return render(request, 'registration/signup.html',context)
+#checkout block
+def checkout(request,plan_id):
+    plandetail=SubcripPlan.objects.get(pk=plan_id)
+    context={
+        'plan':plandetail,
+    }
+    return render(request, 'checkout.html',context)
+

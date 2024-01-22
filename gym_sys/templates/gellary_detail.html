@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <!-- Main Start -->
     <main>
@@ -9,7 +10,7 @@
 				{% for gal in gellary_images %}
                     <div class="col-md-4 mb-4">
                         <div class="card">
-                            <img src="{{gal.img.url}}"class="card-img-top" alt="{{gal.alt_text}}">
+                          <a data-lightbox="home-gallery" href="{{gal.img.url}}">  <img src="{{gal.img.url}}"class="card-img-top" alt="{{gal.alt_text}}"></a>
                         </div>
                     </div>
 				{% endfor %}
@@ -18,4 +19,9 @@
 		<!-- End -->
     </main>
     <!-- End -->
+    <!-- LightBox css -->
+<link rel="stylesheet" type="text/css" href="{% static 'lightbox2-2.11.3/dist/css/lightbox.min.css' %}" />
+<!-- LightBox Js -->
+<script type="text/javascript" src="{% static 'lightbox2-2.11.3/dist/js/lightbox.min.js' %}"></script>
+
 {% endblock %}
