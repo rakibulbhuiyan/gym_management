@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Banners(models.Model):
     img=models.ImageField(upload_to='banners/')
@@ -9,9 +11,6 @@ class Banners(models.Model):
         return self.alt_text
     def image_tag(self):
         return mark_safe('<img src="%s" width="80" />' %(self.img.url))
-
-
-
 class Service(models.Model):
     title=models.CharField(max_length=150)
     detail=models.TextField()
@@ -21,8 +20,6 @@ class Service(models.Model):
         return self.title
     def image_tag(self):
         return mark_safe('<img src="%s" width="80" />' %(self.img.url))
-    
-
 class Pages(models.Model):
     title=models.CharField(max_length=150)
     detail=models.TextField()
@@ -92,13 +89,19 @@ class Subscriber(models.Model):
     address=models.TextField()
     img=models.ImageField(upload_to='subscriber/',null=True)
     def __str__(self) -> str:
-        return self.subscr
+        return str(self.user)
     def image_tag(self):
-        return mark_safe('<img src="%s" width="80" />' %(self.img.url)) 
-    # create subcription here
+        if self.img:
+            return mark_safe('<img src="%s" width="80" />' %(self.img.url)) 
+        else:
+            return 'No Image'
+# create subcription here
 class Subscription(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     plan=models.ForeignKey(SubcripPlan,on_delete=models.CASCADE,null=True)
     price=models.CharField(max_length=50)
 
-
+@receiver(post_save,sender=User)
+def create_subcriber(sender,instance,created,**kwargs):
+    if created:
+        Subscriber.objects.create(user=instance)

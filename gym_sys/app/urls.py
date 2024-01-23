@@ -11,8 +11,9 @@ urlpatterns = [
     path('pricing/', views.pricing,name='pricing'),
 
     path('checkout/<int:plan_id>/', views.checkout,name='checkout'),
-
     #accounts
-
     path('accounts/signup/', views.signup,name='signup'),
+    #dashboard work
+    path('user_dashboard/', views.user_dashboard,name='user_dashboard'),
+    path('update_profile/', views.update_Profile,name='update_profile'),
 ]

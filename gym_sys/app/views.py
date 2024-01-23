@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect
 from .models import Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature
-from .forms import EnquiryForm,SignupForm
+from .forms import EnquiryForm,SignupForm,ProfileForm
 from django.contrib import messages
+
 # Create your views here.
 def home(request):
     banners=Banners.objects.all()
@@ -92,3 +93,19 @@ def checkout(request,plan_id):
     }
     return render(request, 'checkout.html',context)
 
+def user_dashboard(request):
+    return render(request,'dashboard.html')
+
+def update_Profile(request):
+    if request.method=='POST':
+        form=ProfileForm(request.POST,instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'successfully Updated')
+            return redirect('update_profile')
+    else:
+        form = ProfileForm(instance=request.user)
+    context={
+        'form':form,
+    }
+    return render(request,'edit_profile.html',context)
