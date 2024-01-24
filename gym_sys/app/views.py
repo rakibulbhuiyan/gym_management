@@ -1,6 +1,11 @@
 from django.shortcuts import render,redirect
-from .models import Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature
-from .forms import EnquiryForm,SignupForm,ProfileForm
+from .models import (Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature,Trainer,
+                     Notify
+                     )
+from django.template.loader import get_template
+from django.core import serializers
+from django.http import JsonResponse,HttpResponseBadRequest
+from .forms import EnquiryForm,SignupForm,ProfileForm,TrainerLoginForm
 from django.contrib import messages
 
 # Create your views here.
@@ -109,3 +114,53 @@ def update_Profile(request):
         'form':form,
     }
     return render(request,'edit_profile.html',context)
+#trainer login info:::
+def trainerlogin(request):
+    form = TrainerLoginForm()
+    if request.method=='POST':
+        username=request.POST['username']
+        pwd=request.POST['password']
+        trainer=Trainer.objects.filter(username=username,password=pwd).count()
+        if trainer > 0:
+            request.session['trainerlogin']=True
+            return redirect('trainer_dashboard')
+        else:
+            messages.error(request,'Invalid!!!')
+    else:
+        form =TrainerLoginForm()
+    context={
+        'form':form
+    }
+    return render(request, 'registration/trainerlogin.html',context)
+# trainer logout
+def trainerlogout(request):
+    del request.session['trainerlogin']
+    return redirect('trainerlogin')
+
+def notification(request):
+    unread_notifications = Notify.objects.filter(is_read=False).order_by('-id')
+    read_notifications = Notify.objects.filter(is_read=True).order_by('-id')
+
+    context = {
+        'unread_notifications': unread_notifications,
+        'read_notifications': read_notifications,
+    }
+    return render(request, 'notification.html', context)
+
+def get_notifs(request):
+    data=Notify.objects.all().order_by('-id')
+    jsonData=serializers.serialize('json',data)
+    return JsonResponse({'data':jsonData})
+
+def mark_as_read(request, notification_id):
+    if request.method == 'POST':
+        notification = Notify.objects.get(pk=notification_id)
+        notification.is_read = True
+        notification.save()
+        messages.success(request, 'Notification marked as read.')
+    return redirect('notification')
+
+
+
+def trainer_dashboard(request):
+    return render(request, 'registration/trainer_dashboard.html')

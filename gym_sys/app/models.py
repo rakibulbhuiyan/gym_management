@@ -105,3 +105,33 @@ class Subscription(models.Model):
 def create_subcriber(sender,instance,created,**kwargs):
     if created:
         Subscriber.objects.create(user=instance)
+
+class Trainer(models.Model):
+    full_name=models.CharField(max_length=150)
+    username=models.CharField(max_length=150,null=True)
+    password=models.CharField(max_length=50,null=True)
+    mobile=models.CharField(max_length=150)
+    address=models.TextField()
+    is_active=models.BooleanField(default=False)
+    detail=models.TextField()
+    img=models.ImageField(upload_to='trainer/',null=True)
+    def __str__(self) -> str:
+        return str(self.full_name)
+    def image_tag(self):
+        if self.img:
+            return mark_safe('<img src="%s" width="80" />' %(self.img.url)) 
+
+class Notify(models.Model):
+    notify_detail=models.TextField()
+    readby_user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
+    readby_trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE,blank=True,null=True)
+    is_read = models.BooleanField(default=False)
+    def __str__(self) -> str:
+        return str(self.notify_detail) 
+# sibscriber --> Trainer 
+class AssignSubscriber(models.Model):
+    subscriber=models.ForeignKey(Subscriber,on_delete=models.CASCADE,blank=True)
+    trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE,blank=True)
+
+    def __str__(self) -> str:
+        return str(self.subscriber)

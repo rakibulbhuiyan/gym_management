@@ -1,11 +1,12 @@
 from django.contrib import admin
 from .models import (Banners,Service,Pages,Faq,Enquiry,Gallery,GalleryImage,
-                     SubcripPlan,SubcripPlanFeature,PlanDiscount,Subscriber,Subscription)
+                     SubcripPlan,SubcripPlanFeature,PlanDiscount,Subscriber,Subscription,Trainer,
+                     Notify,AssignSubscriber
+                     )
 # Register your models here.
 class BannerAdmin(admin.ModelAdmin):
     list_display = ('alt_text','image_tag')
 admin.site.register(Banners,BannerAdmin)
-
 class ServiceAdmin(admin.ModelAdmin):
     list_display = ('title','image_tag')
 admin.site.register(Service,ServiceAdmin)
@@ -44,3 +45,13 @@ admin.site.register(Subscriber,SubscriberAdmin)
 class SubscriptionAdmin(admin.ModelAdmin):
     list_display=('user','plan','price')
 admin.site.register(Subscription,SubscriptionAdmin)
+class TrainerAdmin(admin.ModelAdmin):
+    list_editable=('is_active',)
+    list_display=('full_name','mobile','is_active','image_tag')
+admin.site.register(Trainer,TrainerAdmin)
+class NotifyAdmin(admin.ModelAdmin):
+    list_display=('notify_detail','readby_user','readby_trainer')
+admin.site.register(Notify,NotifyAdmin)
+class AssignSubscriberAdmin(admin.ModelAdmin):
+    list_display=('subscriber','trainer')
+admin.site.register(AssignSubscriber,AssignSubscriberAdmin)

@@ -11,8 +11,17 @@ urlpatterns = [
     path('pricing/', views.pricing,name='pricing'),
 
     path('checkout/<int:plan_id>/', views.checkout,name='checkout'),
-    #accounts
+    #accounts::::::trainer login
     path('accounts/signup/', views.signup,name='signup'),
+    path('trainerlogin/', views.trainerlogin,name='trainerlogin'),
+    path('trainerlogout/', views.trainerlogout,name='trainerlogout'),
+    path('trainer_dashboard/', views.trainer_dashboard, name='trainer_dashboard'),
+
+    #notifications
+    path('notification/', views.notification,name='notification'),
+    path('get_notifs/', views.get_notifs,name='get_notifs'),
+    path('mark_as_read/<int:notification_id>/', views.mark_as_read, name='mark_as_read'),
+
     #dashboard work
     path('user_dashboard/', views.user_dashboard,name='user_dashboard'),
     path('update_profile/', views.update_Profile,name='update_profile'),
