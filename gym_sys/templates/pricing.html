@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% comment %} {% load check_package %} {% endcomment %}
-{% comment %} {% load mathfilters %} {% endcomment %}
+{% load mathfilters %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'bootstrap-icons/font/bootstrap-icons.css' %}" />
 <section class="container my-4">
@@ -10,6 +10,7 @@
 
     <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
     {% for plan in plans %}
+    {{plan.total_member}}
         <div class="col">
             <div class="card mb-4 rounded-3 shadow-sm {% if plan.highlight_status %} border-primary {% endif %}">
             {% if plan.highlight_status %}
@@ -20,8 +21,8 @@
                 <h4 class="my-0 fw-normal">{{plan.title}}</h4>
             </div>
             <div class="card-body">
-                <h1 class="card-title pricing-card-title">${{plan.price}}<small class="text-muted fw-light">/mo</small></h1>
-                <p class='text-success'>Member Capecity: {{plan.max_member}}</p>
+                <h1 class="card-title pricing-card-title">${{plan.price}}<small class="text-muted fw-light">/{{plan.validate_time}}Days</small></h1>
+                <p class='text-success'>Member Capecity: {{plan.max_member|sub:plan.total_member}}</p>
                 <ul class="list-unstyled mt-3 mb-4">
                  {% for feature in plan.subcripplanfeature_set.all %}
                     <li>{{ feature.title }}</li>

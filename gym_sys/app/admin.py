@@ -27,8 +27,8 @@ class GalleryImageAdmin(admin.ModelAdmin):
     list_display = ('alt_text','image_tag')
 admin.site.register(GalleryImage,GalleryImageAdmin)
 class SubcripPlanAdmin(admin.ModelAdmin):
-    list_editable=('max_member','highlight_status')
-    list_display = ('title','price','max_member','highlight_status')
+    list_editable=('max_member','validate_time','highlight_status')
+    list_display = ('title','price','max_member','validate_time','highlight_status')
 admin.site.register(SubcripPlan,SubcripPlanAdmin)
 class SubcripPlanFeatureAdmin(admin.ModelAdmin):
     list_display=('title','subplans')
@@ -43,7 +43,7 @@ class SubscriberAdmin(admin.ModelAdmin):
     list_display=('user','image_tag','mobile')
 admin.site.register(Subscriber,SubscriberAdmin)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display=('user','plan','price')
+    list_display=('user','plan','regis_date','price')
 admin.site.register(Subscription,SubscriptionAdmin)
 class TrainerAdmin(admin.ModelAdmin):
     list_editable=('is_active',)
@@ -53,5 +53,5 @@ class NotifyAdmin(admin.ModelAdmin):
     list_display=('notify_detail','readby_user','readby_trainer')
 admin.site.register(Notify,NotifyAdmin)
 class AssignSubscriberAdmin(admin.ModelAdmin):
-    list_display=('subscriber','trainer')
+    list_display=('user','trainer')
 admin.site.register(AssignSubscriber,AssignSubscriberAdmin)

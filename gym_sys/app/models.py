@@ -7,6 +7,8 @@ from django.dispatch import receiver
 class Banners(models.Model):
     img=models.ImageField(upload_to='banners/')
     alt_text=models.CharField(max_length=150)
+    class Meta:
+        verbose_name_plural='Banners'
     def __str__(self) -> str:
         return self.alt_text
     def image_tag(self):
@@ -65,6 +67,7 @@ class SubcripPlan(models.Model):
     price=models.IntegerField()    
     max_member=models.IntegerField(null=True)    
     highlight_status=models.BooleanField(default=False,null=True)
+    validate_time=models.IntegerField(null=True)    
     def __str__(self) -> str:
         return self.title
 
@@ -100,12 +103,12 @@ class Subscription(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     plan=models.ForeignKey(SubcripPlan,on_delete=models.CASCADE,null=True)
     price=models.CharField(max_length=50)
+    regis_date=models.DateTimeField(auto_now_add=True,null=True)
 
 @receiver(post_save,sender=User)
 def create_subcriber(sender,instance,created,**kwargs):
     if created:
         Subscriber.objects.create(user=instance)
-
 class Trainer(models.Model):
     full_name=models.CharField(max_length=150)
     username=models.CharField(max_length=150,null=True)
@@ -120,7 +123,6 @@ class Trainer(models.Model):
     def image_tag(self):
         if self.img:
             return mark_safe('<img src="%s" width="80" />' %(self.img.url)) 
-
 class Notify(models.Model):
     notify_detail=models.TextField()
     readby_user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
@@ -130,8 +132,9 @@ class Notify(models.Model):
         return str(self.notify_detail) 
 # sibscriber --> Trainer 
 class AssignSubscriber(models.Model):
-    subscriber=models.ForeignKey(Subscriber,on_delete=models.CASCADE,blank=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE,blank=True)
 
     def __str__(self) -> str:
-        return str(self.subscriber)
+        return str(self.user)
+    

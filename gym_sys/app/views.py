@@ -1,13 +1,14 @@
 from django.shortcuts import render,redirect
 from .models import (Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature,Trainer,
-                     Notify
+                     Notify,Subscription,AssignSubscriber
                      )
-from django.template.loader import get_template
 from django.core import serializers
-from django.http import JsonResponse,HttpResponseBadRequest
+from django.http import JsonResponse
 from .forms import EnquiryForm,SignupForm,ProfileForm,TrainerLoginForm
 from django.contrib import messages
-
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Count
+from datetime import timedelta
 # Create your views here.
 def home(request):
     banners=Banners.objects.all()
@@ -67,7 +68,7 @@ def gellary_detail(request,id):
     return render(request, 'gellary_detail.html',context)
 
 def pricing(request):
-    plans=SubcripPlan.objects.all().order_by('id',)
+    plans=SubcripPlan.objects.annotate(total_member=Count('subscription__id')).all().order_by('price',)
     dfeatures=SubcripPlanFeature.objects.all()
     context={
         'plans':plans,
@@ -97,9 +98,25 @@ def checkout(request,plan_id):
         'plan':plandetail,
     }
     return render(request, 'checkout.html',context)
-
+# User Dashboard
 def user_dashboard(request):
-    return render(request,'dashboard.html')
+    try:
+        current_plan = Subscription.objects.get(user=request.user)
+        my_trainer = AssignSubscriber.objects.get(user=request.user)
+        unread_notifications = Notify.objects.filter(is_read=False).order_by('-id')
+        read_notifications = Notify.objects.filter(is_read=True).order_by('-id')
+        total_notifications = unread_notifications.union(read_notifications)
+        endtime=current_plan.regis_date+timedelta(days=current_plan.plan.validate_time)
+    except ObjectDoesNotExist:
+        # if subscription does not exist
+        current_plan = None
+    context = {
+        'current_plan': current_plan,
+        'my_trainer': my_trainer,
+        'total_notifications': total_notifications,
+        'endtime': endtime,
+    }
+    return render(request,'dashboard.html',context)
 
 def update_Profile(request):
     if request.method=='POST':
@@ -136,14 +153,15 @@ def trainerlogin(request):
 def trainerlogout(request):
     del request.session['trainerlogin']
     return redirect('trainerlogin')
-
+#   Notificetion
 def notification(request):
     unread_notifications = Notify.objects.filter(is_read=False).order_by('-id')
     read_notifications = Notify.objects.filter(is_read=True).order_by('-id')
-
+    total_notifications = unread_notifications.union(read_notifications)
     context = {
         'unread_notifications': unread_notifications,
         'read_notifications': read_notifications,
+        'total_notifications': total_notifications,
     }
     return render(request, 'notification.html', context)
 
