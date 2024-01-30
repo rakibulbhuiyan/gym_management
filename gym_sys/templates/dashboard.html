@@ -23,12 +23,58 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="card">
+                        <div class="col-md-6">
+                            <div class="card" style="width: 15rem;">
+                            
                                 <h5 class="card-header">Assign Trainer </h5>
+                                <img src="{{my_trainer.trainer.img.url}}" class="card-img-top" alt="{{my_trainer.trainer.full_name}}">
                                 <div class="card-body">
                                     <h6 class='card-text'>{{my_trainer.trainer.full_name}}</h6>
-                                    
+                                </div>
+                                <div class="card-footer">
+                                <a href="#" title='Facebook' class='btn btn-primary btn-sm'><i class="bi bi-facebook"></i></a>
+                                <a href="#" title='Twitter' class='btn btn-info btn-sm'><i class="bi bi-twitter"></i></a>
+                                <a href="#" title='Whatsapp' class='btn btn-success btn-sm'><i class="bi bi-whatsapp"></i></a>
+                                <a href="#" title='Whatsapp' class='btn btn-danger btn-sm'><i class="bi bi-youtube"></i></a>
+                                <button data-bs-toggle="modal" data-bs-target="#achivementsModal"  title='achivements' class='btn btn-sm btn-success float-end'><i class="bi bi-trophy-fill"></i></button>
+                                
+<!-- Modal -->
+<div class="modal fade" id="achivementsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{my_trainer.trainer.full_name}} Achivements</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-hover">
+            <thead>
+              <tr>
+               <th>Title</th>
+               <th>Image</th>
+               <th>Details</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for achieve in my_trainer.trainer.trainerachivements_set.all %}
+              <tr>
+                <td>{{achieve.title}}</td>
+                <td><img src="{{achieve.img.url}}" width='80' alt="Image"></td>
+                <td>{{achieve.detail}}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>                                
+                                
+                                
+                                
+                                
+                                
                                 </div>
                             </div>
                         </div>

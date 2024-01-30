@@ -137,4 +137,19 @@ class AssignSubscriber(models.Model):
 
     def __str__(self) -> str:
         return str(self.user)
-    
+class TrainerAchivements(models.Model):
+    trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE,null=True)
+    title=models.CharField(max_length=150)
+    detail=models.TextField()
+    img=models.ImageField(upload_to='achivements/',null=True)
+    class Meta:
+        verbose_name_plural='TrainerAchivements'
+    def __str__(self) -> str:
+        return str(self.title)
+    def image_tag(self):
+        if self.img:
+            return mark_safe('<img src="%s" width="80" />' %(self.img.url)) 
+        else:
+            return 'No image'
+
+
