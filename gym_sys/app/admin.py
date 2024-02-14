@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (Banners,Service,Pages,Faq,Enquiry,Gallery,GalleryImage,
                      SubcripPlan,SubcripPlanFeature,PlanDiscount,Subscriber,Subscription,Trainer,
-                     Notify,AssignSubscriber,TrainerAchivements
+                     Notify,AssignSubscriber,TrainerAchivements,Trainersalary
                      )
 # Register your models here.
 class BannerAdmin(admin.ModelAdmin):
@@ -47,7 +47,7 @@ class SubscriptionAdmin(admin.ModelAdmin):
 admin.site.register(Subscription,SubscriptionAdmin)
 class TrainerAdmin(admin.ModelAdmin):
     list_editable=('is_active',)
-    list_display=('full_name','mobile','is_active','image_tag')
+    list_display=('full_name','mobile','salary','is_active','image_tag')
 admin.site.register(Trainer,TrainerAdmin)
 class NotifyAdmin(admin.ModelAdmin):
     list_display=('notify_detail','readby_user','readby_trainer')
@@ -58,3 +58,6 @@ admin.site.register(AssignSubscriber,AssignSubscriberAdmin)
 class TrainerAchivementsAdmin(admin.ModelAdmin):
     list_display=('trainer','title','image_tag')
 admin.site.register(TrainerAchivements,TrainerAchivementsAdmin)
+class TrainersalaryAdmin(admin.ModelAdmin):
+    list_display=('trainer','amount','amount_date','remarks')
+admin.site.register(Trainersalary,TrainersalaryAdmin)

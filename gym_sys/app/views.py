@@ -4,7 +4,7 @@ from .models import (Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,
                      )
 from django.core import serializers
 from django.http import JsonResponse
-from .forms import EnquiryForm,SignupForm,ProfileForm,TrainerLoginForm
+from .forms import (EnquiryForm,SignupForm,ProfileForm,TrainerLoginForm,TrainerProfileForm)
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
@@ -100,6 +100,10 @@ def checkout(request,plan_id):
     return render(request, 'checkout.html',context)
 # User Dashboard
 def user_dashboard(request):
+    current_plan = None
+    my_trainer = None
+    total_notifications = None
+    endtime = None
     try:
         current_plan = Subscription.objects.get(user=request.user)
         my_trainer = AssignSubscriber.objects.get(user=request.user)
@@ -139,7 +143,9 @@ def trainerlogin(request):
         pwd=request.POST['password']
         trainer=Trainer.objects.filter(username=username,password=pwd).count()
         if trainer > 0:
+            trainer=Trainer.objects.filter(username=username,password=pwd).first()
             request.session['trainerlogin']=True
+            request.session['trainerid']=trainer.id
             return redirect('trainer_dashboard')
         else:
             messages.error(request,'Invalid!!!')
@@ -179,6 +185,21 @@ def mark_as_read(request, notification_id):
     return redirect('notification')
 
 
-
+# trainer dashboard (trainer profile,subcription,subcriber)
 def trainer_dashboard(request):
     return render(request, 'registration/trainer_dashboard.html')
+# trainer bia data
+def trainer_profile(request):
+    train_id=request.session['trainerid']
+    trainer=Trainer.objects.get(id=train_id)
+    form=TrainerProfileForm(instance=trainer)
+    if request.method=='POST':
+        form=TrainerProfileForm(request.POST,request.FILES,instance=trainer)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'profile data updated successfully!!!')
+    
+    context={
+        'form':form
+    }
+    return render(request, 'registration/trainer_profile.html',context)

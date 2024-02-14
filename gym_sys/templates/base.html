@@ -43,7 +43,8 @@
 			  {% if not request.user.is_authenticated %}
 			    
 					{% if request.session.trainerlogin %}
-						<li><a class="dropdown-item" href="{% url 'trainerlogout' %}">Trainer Logout</a></li>
+						<li><a class="dropdown-item" href="{% url 'trainer_dashboard' %}" class="list-group-item {% if request.path == '/trainer_dashboard/' %} active {% endif %}">Dashboard</a></li>
+						<li><a class="dropdown-item" href="{% url 'trainerlogout' %}">Logout</a></li>
 					{% else %}
 						<li><a class="dropdown-item" href="{% url 'trainerlogin' %}">Trainer Login</a></li>
 						<li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>

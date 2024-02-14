@@ -114,6 +114,7 @@ class Trainer(models.Model):
     username=models.CharField(max_length=150,null=True)
     password=models.CharField(max_length=50,null=True)
     mobile=models.CharField(max_length=150)
+    salary=models.IntegerField(default=0)
     address=models.TextField()
     is_active=models.BooleanField(default=False)
     detail=models.TextField()
@@ -123,6 +124,9 @@ class Trainer(models.Model):
     def image_tag(self):
         if self.img:
             return mark_safe('<img src="%s" width="80" />' %(self.img.url)) 
+# CSV file Attached here
+class TrainerCSV(models.Model):
+    trainercsv=models.FileField(upload_to='trainercsv/',null=True)
 class Notify(models.Model):
     notify_detail=models.TextField()
     readby_user=models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
@@ -152,4 +156,14 @@ class TrainerAchivements(models.Model):
         else:
             return 'No image'
 
+#Trainer Salary include
+class Trainersalary(models.Model):
+    trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE)
+    amount=models.IntegerField()
+    amount_date=models.DateField()
+    remarks=models.TextField(blank=True)
+    def __str__(self) -> str:
+        return str(self.trainer.full_name)
+    class Meta:
+        verbose_name_plural='Trainer Salary'
 

@@ -24,4 +24,7 @@ class TrainerLoginForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'password': forms.PasswordInput(attrs={'class': 'form-control'}),
         }
-        
+class TrainerProfileForm(forms.ModelForm):
+    class Meta:
+        model=Trainer
+        fields=['full_name','mobile','address','detail','img']
