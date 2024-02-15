@@ -1,10 +1,10 @@
 from django.shortcuts import render,redirect
 from .models import (Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature,Trainer,
-                     Notify,Subscription,AssignSubscriber
+                     Notify,Subscription,AssignSubscriber,Trainersalary
                      )
 from django.core import serializers
 from django.http import JsonResponse
-from .forms import (EnquiryForm,SignupForm,ProfileForm,TrainerLoginForm,TrainerProfileForm)
+from .forms import (EnquiryForm,SignupForm,ProfileForm,TrainerLoginForm,TrainerProfileForm,TrainerPasswordForm)
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count
@@ -203,3 +203,35 @@ def trainer_profile(request):
         'form':form
     }
     return render(request, 'registration/trainer_profile.html',context)
+# trainer subcriber
+def trainer_subcriber(request):
+    trainer=Trainer.objects.get(pk=request.session['trainerid'])
+    trainer_subcriber=AssignSubscriber.objects.filter(trainer=trainer).order_by('-id')
+    context={
+        'trainer':trainer,
+        'trainer_subcriber':trainer_subcriber,
+    }
+    return render(request,'registration/trainer_subcriber.html',context)
+
+# trainer payments
+def trainer_payments(request):
+    trainer=Trainer.objects.get(pk=request.session['trainerid'])
+    trainer_pays=Trainersalary.objects.filter(trainer=trainer).order_by('-id')
+    context={
+        'trainer':trainer,
+        'trainer_pays':trainer_pays,
+    }
+    return render(request,'registration/trainer_payments.html',context)
+# password change for trainer
+def trainer_password_change(request):
+    trainer=Trainer.objects.get(pk=request.session['trainerid'])#use for who is login to logout so session create
+    if request.method=='POST':
+        new_password=request.POST['new_password']
+        updatepass=Trainer.objects.filter(pk=request.session['trainerid']).update(password=new_password)#update password and logout.
+        if updatepass:
+            del request.session['trainerlogin']
+            return redirect('trainerlogin')
+        else:
+            messages.error(request,'not updated')
+    form=TrainerPasswordForm
+    return render(request,'registration/trainer_change_pass.html',{'form':form})

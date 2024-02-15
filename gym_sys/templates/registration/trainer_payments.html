@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+    <!-- Main Start -->
+    {% block content %}
+    <main>
+		<!-- Services -->
+		<section class="container my-4">
+			<div class="row">
+                <div class="col-3">
+                    {% include 'registration/left_sidebar.html' %}
+                </div>
+                <div class="col-9">
+                    <h3 class="mb-4 border-bottom pb-1">Payments</h3>
+                    <table class="table table-bordered">
+						<tr>
+							<th>Amount</th>
+							<th>Amount Data</th>
+						</tr>
+						 {% for train_pay in trainer_pays %}
+						<tr>
+							<td>{{ train_pay.amount }}</td>
+							<td>{{ train_pay.amount_date }}</td>
+						</tr>
+						{% endfor %}
+					</table>
+                </div>
+            </div>
+		</section>
+		<!-- End -->
+    </main>
+    <!-- End -->
+	{% endblock content %}
