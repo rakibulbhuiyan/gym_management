@@ -141,6 +141,7 @@ class AssignSubscriber(models.Model):
 
     def __str__(self) -> str:
         return str(self.user)
+# achivements of Trainer
 class TrainerAchivements(models.Model):
     trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE,null=True)
     title=models.CharField(max_length=150)
@@ -166,4 +167,25 @@ class Trainersalary(models.Model):
         return str(self.trainer.full_name)
     class Meta:
         verbose_name_plural='Trainer Salary'
+# Trainer Notifications.....
+class TrainerNotifications(models.Model):
+    notif_msg = models.TextField()
+    def __str__(self) -> str:
+        return self.notif_msg
+    class Meta:
+        verbose_name_plural='Trainer Notifications'
+# create notifTrainer status for create relationship...
+class NotifTrainerStatus(models.Model):
+    notif=models.ForeignKey(TrainerNotifications,on_delete=models.CASCADE)
+    trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE)
+    status=models.BooleanField(default=False)
+    class Meta:
+        verbose_name_plural='Trainer Notification Status'
+# subscriber message model 
+class Trainermsg(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE,null=True)
+    message = models.TextField()
 
+    class Meta:
+        verbose_name_plural='Message for Trainer'

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .models import (Banners,Service,Pages,Faq,Gallery,GalleryImage,SubcripPlan,SubcripPlanFeature,Trainer,
-                     Notify,Subscription,AssignSubscriber,Trainersalary
+                     Notify,Subscription,AssignSubscriber,Trainersalary,TrainerNotifications,Trainermsg
                      )
 from django.core import serializers
 from django.http import JsonResponse
@@ -235,3 +235,17 @@ def trainer_password_change(request):
             messages.error(request,'not updated')
     form=TrainerPasswordForm
     return render(request,'registration/trainer_change_pass.html',{'form':form})
+# trainer notifications
+def trainer_notifs(request):
+    data=TrainerNotifications.objects.all().order_by('-id')# get all trainer data by reverse id 
+    context={
+        'notifs':data,
+    }
+    return render(request,'registration/trainer_notification.html',context)
+#  trainer messages
+def trainer_message(request):
+    data=Trainermsg.objects.all().order_by('-id')# get all trainer data by reverse id 
+    context={
+        'msgs':data,
+    }
+    return render(request,'registration/message.html',context)
