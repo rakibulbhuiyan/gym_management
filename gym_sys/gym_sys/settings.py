@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'app',
     'mathfilters',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +62,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'gym_sys.wsgi.application'
+# WSGI_APPLICATION = 'gym_sys.wsgi.application'
+ASGI_APPLICATION = 'gym_sys.asgi.application'
 
 
 # Database

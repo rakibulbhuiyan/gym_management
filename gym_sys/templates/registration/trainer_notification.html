@@ -27,4 +27,27 @@
 		<!-- End -->
     </main>
     <!-- End -->
+<script>
+    const webSocket = new WebSocket(
+        'ws://'
+        + window.location.host
+        + '/ws/notifications/'
+    );
+	webSocket.onopen=function(event){
+		webSocket.send(JSON.stringify({
+            'message': 'From Client'
+        }));
+	}
+
+	webSocket.onmessage=function(event){
+		var _data=JSON.parse(event.data);
+		console.log(_data);
+		$(".notif-list").append('<li class="list-group-item">'+_data.notif+'<span class="btn btn-info btn-sm float-end">MarkAsRead</span></li>');
+		$(".totalunread").text(_data.total);
+	}
+
+	webSocket.onclose=function(event){
+		console.log('Closed');
+	}
+</script>
 {% endblock content %}
